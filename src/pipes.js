@@ -53,11 +53,13 @@ export class Pipes {
 
     const top = this.template.clone(true);
     top.position.set(0, gapY + this.gapSize / 2 + 5, 0);
-    top.rotation.y = Math.PI;
+    top.rotation.x = Math.PI;
+    top.traverse((c) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
     group.add(top);
 
     const bottom = this.template.clone(true);
     bottom.position.set(0, gapY - this.gapSize / 2 - 5, 0);
+    bottom.traverse((c) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
     group.add(bottom);
 
     group.position.set(15, 0, 0);

@@ -7,47 +7,55 @@ export class Bird {
     this.velocity = 0;
     this.gravity = -30;
     this.flapSpeed = 8;
+    this.wingAngle = 0;
+    this.flapPhase = 0;
 
     const data = game.assets.models['bird.glb'];
     this.model = data.scene.clone(true);
     this.model.position.set(-5, 0, 0);
     this.scene.add(this.model);
 
-    this.mixer = new THREE.AnimationMixer(this.model);
-    this.animations = {};
-    data.animations.forEach((clip) => {
-      this.animations[clip.name] = this.mixer.clipAction(clip);
+    this.wingMeshes = [];
+    this.model.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        this.wingMeshes.push(child);
+      }
     });
-
-    if (this.animations['Idle']) this.animations['Idle'].play();
   }
 
   flap() {
     this.velocity = this.flapSpeed;
-    if (this.animations['Flap']) {
-      this.animations['Flap'].stop();
-      this.animations['Flap'].play();
-    }
+    this.flapPhase = 1;
   }
 
   reset() {
     this.velocity = 0;
+    this.flapPhase = 0;
     this.model.position.set(-5, 0, 0);
     this.model.rotation.set(0, 0, 0);
   }
 
   idle(delta) {
-    this.mixer.update(delta);
     this.model.position.y = Math.sin(Date.now() * 0.003) * 0.5;
+    this.model.rotation.z = Math.sin(Date.now() * 0.002) * 0.1;
   }
 
   update(delta) {
-    this.mixer.update(delta);
     this.velocity += this.gravity * delta;
     this.model.position.y += this.velocity * delta;
 
     const tilt = Math.max(-0.5, Math.min(1.2, this.velocity * 0.04));
     this.model.rotation.z = tilt;
+
+    if (this.flapPhase > 0) {
+      this.flapPhase -= delta * 6;
+      this.model.rotation.x = -Math.sin(this.flapPhase * Math.PI) * 0.3;
+    }
+
+    for (const mesh of this.wingMeshes) {
+      mesh.rotation.z = Math.sin(Date.now() * 0.01 + mesh.id) * 0.2;
+    }
 
     if (this.model.position.y < -8) {
       this.game.gameOver();

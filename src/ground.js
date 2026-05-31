@@ -13,6 +13,7 @@ export class Ground {
     for (let i = 0; i < 3; i++) {
       const seg = this.template.clone(true);
       seg.position.set(i * 20 - 10, -10, 0);
+      seg.traverse((c) => { if (c.isMesh) c.receiveShadow = true; });
       this.scene.add(seg);
       this.segments.push(seg);
     }
