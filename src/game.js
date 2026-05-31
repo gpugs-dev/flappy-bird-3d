@@ -47,6 +47,8 @@ export class Game {
       this.decor.update(delta);
     } else if (this.state === STATE.MENU) {
       this.bird.idle(delta);
+    } else if (this.state === STATE.GAME_OVER) {
+      this.bird.deathUpdate(delta);
     }
 
     this.sceneSetup.renderer.render(this.sceneSetup.scene, this.sceneSetup.camera);
@@ -66,6 +68,7 @@ export class Game {
 
   gameOver() {
     this.state = STATE.GAME_OVER;
+    this.bird.die();
     if (this.score > this.bestScore) {
       this.bestScore = this.score;
       localStorage.setItem('flappyBest', String(this.bestScore));
