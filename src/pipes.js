@@ -8,11 +8,12 @@ export class Pipes {
     this.spawnTimer = 0;
     this.spawnInterval = 2;
     this.speed = -8;
-    this.gapSize = 4;
-    this.pipeWidth = 2;
+    this.gapSize = 4.5;
     this.passedX = -5;
 
-    this.template = game.assets.models['pipe.glb'].scene.clone(true);
+    const data = game.assets.models['pipe.glb'];
+    this.template = data.scene.clone(true);
+    this.template.scale.setScalar(2);
   }
 
   reset() {
@@ -51,16 +52,17 @@ export class Pipes {
     const gapY = (Math.random() - 0.5) * 6;
     const group = new THREE.Group();
 
-    const top = this.template.clone(true);
-    top.position.set(0, gapY + this.gapSize / 2 + 5, 0);
-    top.rotation.x = Math.PI;
-    top.traverse((c) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
-    group.add(top);
+    const bottomMesh = this.template.clone(true);
+    bottomMesh.rotation.x = -Math.PI / 2;
+    bottomMesh.traverse((c) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
+    bottomMesh.position.set(0, gapY - this.gapSize / 2 - 4, 0);
+    group.add(bottomMesh);
 
-    const bottom = this.template.clone(true);
-    bottom.position.set(0, gapY - this.gapSize / 2 - 5, 0);
-    bottom.traverse((c) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
-    group.add(bottom);
+    const topMesh = this.template.clone(true);
+    topMesh.rotation.x = Math.PI / 2;
+    topMesh.traverse((c) => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
+    topMesh.position.set(0, gapY + this.gapSize / 2 + 4, 0);
+    group.add(topMesh);
 
     group.position.set(15, 0, 0);
     this.scene.add(group);
