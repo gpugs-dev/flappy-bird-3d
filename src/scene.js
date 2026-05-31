@@ -5,8 +5,8 @@ export class SceneSetup {
     this.scene = new THREE.Scene();
     this.scene.fog = new THREE.FogExp2(0x87CEEB, 0.008);
 
-    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 200);
-    this.camera.position.set(0, 2, 12);
+    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 500);
+    this.camera.position.set(0, 0, 14);
     this.camera.lookAt(0, 0, 0);
 
     this.clock = new THREE.Clock();
