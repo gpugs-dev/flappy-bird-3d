@@ -15,7 +15,7 @@ export class Decor {
 
   update(delta) {
     this.spawnTimer += delta;
-    if (this.spawnTimer > 1 + Math.random() * 2) {
+    if (this.spawnTimer > 3 + Math.random() * 3) {
       this.spawnTimer = 0;
       this.spawn();
     }
