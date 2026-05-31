@@ -52,7 +52,7 @@ export class Bird {
       this.group.rotation.x = -Math.sin(this.flapPhase * Math.PI) * 0.3;
     }
 
-    if (this.group.position.y < -8) {
+    if (this.group.position.y < -10) {
       this.game.gameOver();
     }
   }

@@ -5,7 +5,7 @@ export class Decor {
     this.game = game;
     this.scene = game.sceneSetup.scene;
     this.items = [];
-    this.speed = -5;
+    this.speed = -6;
     this.spawnTimer = 0;
 
     const data = game.assets.models['decor.glb'];
@@ -14,7 +14,7 @@ export class Decor {
 
   update(delta) {
     this.spawnTimer += delta;
-    if (this.spawnTimer > 3 + Math.random() * 4) {
+    if (this.spawnTimer > 2.5 + Math.random() * 3) {
       this.spawnTimer = 0;
       this.spawn();
     }
@@ -22,7 +22,7 @@ export class Decor {
     for (let i = this.items.length - 1; i >= 0; i--) {
       const item = this.items[i];
       item.position.x += this.speed * delta;
-      if (item.position.x < -20) {
+      if (item.position.x < -25) {
         this.scene.remove(item);
         this.items.splice(i, 1);
       }
@@ -31,8 +31,12 @@ export class Decor {
 
   spawn() {
     const clone = this.template.clone(true);
-    clone.position.set(20, Math.random() * 6 - 2, (Math.random() - 0.5) * 10);
-    clone.scale.setScalar(0.5 + Math.random() * 0.5);
+    clone.position.set(
+      25,
+      -4 + Math.random() * 5,
+      (Math.random() - 0.5) * 12
+    );
+    clone.scale.setScalar(0.4 + Math.random() * 0.6);
     this.scene.add(clone);
     this.items.push(clone);
   }

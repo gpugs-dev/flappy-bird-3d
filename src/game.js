@@ -38,7 +38,7 @@ export class Game {
 
   animate() {
     requestAnimationFrame(() => this.animate());
-    const delta = this.sceneSetup.clock.getDelta();
+    const delta = Math.min(this.sceneSetup.clock.getDelta(), 0.05);
 
     if (this.state === STATE.PLAYING) {
       this.bird.update(delta);
@@ -57,6 +57,9 @@ export class Game {
     this.score = 0;
     this.ui.hideAll();
     this.pipes.reset();
+    this.decor.items.forEach((d) => this.sceneSetup.scene.remove(d));
+    this.decor.items = [];
+    this.decor.spawnTimer = 0;
     this.bird.reset();
     this.ui.updateScore(this.score);
   }
