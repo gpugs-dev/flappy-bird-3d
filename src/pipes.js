@@ -70,12 +70,25 @@ export class Pipes {
   }
 
   checkCollision() {
-    const birdBounds = this.game.bird.getBounds();
+    const bird = this.game.bird;
+    const bx = bird.group.position.x;
+    const by = bird.group.position.y;
+    const r = 0.15;
+
     for (const p of this.pipes) {
-      const pipeBounds = new THREE.Box3().setFromObject(p.group);
-      if (birdBounds.intersectsBox(pipeBounds)) {
-        this.game.gameOver();
-        return;
+      const px = p.group.position.x;
+      const halfGap = this.gapSize / 2;
+
+      const near = 2.5;
+      if (bx + r > px - 0.4 && bx - r < px + 0.4) {
+        if (by + r > p.gapY + halfGap && by - r < p.gapY + halfGap + near) {
+          this.game.gameOver();
+          return;
+        }
+        if (by - r < p.gapY - halfGap && by + r > p.gapY - halfGap - near) {
+          this.game.gameOver();
+          return;
+        }
       }
     }
   }
