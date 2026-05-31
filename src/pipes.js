@@ -74,19 +74,17 @@ export class Pipes {
     const bx = bird.group.position.x;
     const by = bird.group.position.y;
     const r = 0.15;
-    const margin = 0.3;
 
     for (const p of this.pipes) {
       const px = p.group.position.x;
       const halfGap = this.gapSize / 2;
 
-      const near = 2.5;
       if (bx + r > px - 0.4 && bx - r < px + 0.4) {
-        if (by + r > p.gapY + halfGap + margin && by - r < p.gapY + halfGap + near) {
+        if (by + r > p.gapY + halfGap) {
           this.game.gameOver();
           return;
         }
-        if (by - r < p.gapY - halfGap - margin && by + r > p.gapY - halfGap - near) {
+        if (by - r < p.gapY - halfGap) {
           this.game.gameOver();
           return;
         }
