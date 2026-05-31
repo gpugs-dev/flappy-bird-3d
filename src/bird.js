@@ -84,6 +84,11 @@ export class Bird {
     if (this.group.position.y < -3.3) {
       this.game.gameOver();
     }
+
+    if (this.group.position.y > 8) {
+      this.group.position.y = 8;
+      this.velocity = 0;
+    }
   }
 
   getBounds() {
