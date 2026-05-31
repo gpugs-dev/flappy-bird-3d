@@ -7,9 +7,16 @@ export class Ground {
     this.speed = -8;
     this.segments = [];
 
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load('/models/ground.jpg');
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(6, 1);
+
     this.geo = new THREE.BoxGeometry(60, 1, 20);
     this.mat = new THREE.MeshStandardMaterial({
-      color: 0x4a7c3f,
+      map: texture,
       roughness: 0.9,
       metalness: 0,
     });
