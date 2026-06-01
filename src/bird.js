@@ -38,11 +38,11 @@ export class Bird {
   }
 
   die() {
-    this.deathTime = this.game.sceneSetup.clock.elapsedTime;
+    this.deathTime = this.game.sceneSetup.timer.getElapsed();
   }
 
   deathUpdate(delta) {
-    const elapsed = this.game.sceneSetup.clock.elapsedTime - this.deathTime;
+    const elapsed = this.game.sceneSetup.timer.getElapsed() - this.deathTime;
     const t = Math.min(elapsed / 0.5, 1);
     this.materials.forEach((m, i) => {
       m.color.lerpColors(
