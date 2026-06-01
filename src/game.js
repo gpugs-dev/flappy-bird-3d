@@ -38,7 +38,7 @@ export class Game {
 
   animate() {
     requestAnimationFrame(() => this.animate());
-    const delta = Math.min(this.sceneSetup.timer.getDelta(), 0.05);
+    const delta = Math.min(this.sceneSetup.clock.getDelta(), 0.05);
 
     if (this.state === STATE.PLAYING) {
       this.bird.update(delta);

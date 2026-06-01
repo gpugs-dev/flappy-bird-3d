@@ -9,13 +9,13 @@ export class SceneSetup {
     this.camera.position.set(0, 0, 14);
     this.camera.lookAt(0, 0, 0);
 
-    this.timer = new THREE.Timer();
+    this.clock = new THREE.Clock();
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.2;
     document.getElementById('app').appendChild(this.renderer.domElement);
