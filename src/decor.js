@@ -14,9 +14,7 @@ export class Decor {
     this.templates = DECOR_NAMES.map((name) => {
       const data = game.assets.models[name];
       if (!data) return null;
-      const t = data.scene.clone(true);
-      t.scale.setScalar(DECOR_SCALES[name]);
-      return t;
+      return { name, scene: data.scene.clone(true) };
     }).filter(Boolean);
   }
 
@@ -29,9 +27,22 @@ export class Decor {
 
     for (let i = this.items.length - 1; i >= 0; i--) {
       const item = this.items[i];
-      item.position.x += this.speed * delta;
-      if (item.position.x < -30) {
-        this.scene.remove(item);
+      item.group.position.x += this.speed * delta;
+
+      if (item.type === 'coin.glb' || item.type === 'gem.glb') {
+        item.group.rotation.y += delta * 2;
+      }
+      if (item.type === 'decor.glb') {
+        item.group.rotation.y += delta * 1.5;
+        const s = 1 + Math.sin(Date.now() * 0.003 + i) * 0.15;
+        item.group.scale.setScalar(s * DECOR_SCALES[item.type]);
+      }
+      if (item.type === 'cloud.glb') {
+        item.group.position.y += Math.sin(Date.now() * 0.002 + i) * delta * 0.3;
+      }
+
+      if (item.group.position.x < -30) {
+        this.scene.remove(item.group);
         this.items.splice(i, 1);
       }
     }
@@ -39,13 +50,16 @@ export class Decor {
 
   spawn() {
     const tpl = this.templates[Math.floor(Math.random() * this.templates.length)];
-    const clone = tpl.clone(true);
-    clone.position.set(
+    const clone = tpl.scene.clone(true);
+    const group = new THREE.Group();
+    group.add(clone);
+    group.scale.setScalar(DECOR_SCALES[tpl.name]);
+    group.position.set(
       30,
       2 + Math.random() * 8,
       -5 - Math.random() * 8
     );
-    this.scene.add(clone);
-    this.items.push(clone);
+    this.scene.add(group);
+    this.items.push({ group, type: tpl.name });
   }
 }
