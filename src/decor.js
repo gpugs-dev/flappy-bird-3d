@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 
+const DECOR_NAMES = ['decor.glb', 'coin.glb', 'cloud.glb', 'mountain.glb', 'bush.glb', 'gem.glb'];
+const DECOR_SCALES = { 'decor.glb': 2, 'coin.glb': 3, 'cloud.glb': 4, 'mountain.glb': 3, 'bush.glb': 3, 'gem.glb': 3 };
+
 export class Decor {
   constructor(game) {
     this.game = game;
@@ -8,9 +11,13 @@ export class Decor {
     this.speed = -4;
     this.spawnTimer = 0;
 
-    const data = game.assets.models['decor.glb'];
-    this.template = data.scene.clone(true);
-    this.template.scale.setScalar(2);
+    this.templates = DECOR_NAMES.map((name) => {
+      const data = game.assets.models[name];
+      if (!data) return null;
+      const t = data.scene.clone(true);
+      t.scale.setScalar(DECOR_SCALES[name]);
+      return t;
+    }).filter(Boolean);
   }
 
   update(delta) {
@@ -31,7 +38,8 @@ export class Decor {
   }
 
   spawn() {
-    const clone = this.template.clone(true);
+    const tpl = this.templates[Math.floor(Math.random() * this.templates.length)];
+    const clone = tpl.clone(true);
     clone.position.set(
       30,
       2 + Math.random() * 8,

@@ -12,7 +12,7 @@ export class AssetLoader {
   }
 
   loadAll() {
-    const files = ['bird.glb', 'pipe.glb', 'decor.glb'];
+    const files = ['bird.glb', 'pipe.glb', 'decor.glb', 'coin.glb', 'cloud.glb', 'mountain.glb', 'bush.glb', 'gem.glb'];
     const promises = files.map((name) => this.loadModel(name));
     return Promise.all(promises).then((results) => {
       files.forEach((name, i) => {
