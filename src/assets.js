@@ -23,7 +23,7 @@ export class AssetLoader {
 
   loadModel(name) {
     return new Promise((resolve, reject) => {
-      this.loader.load(`/models/${name}`, resolve, undefined, reject);
+      this.loader.load(`${import.meta.env.BASE_URL}models/${name}`, resolve, undefined, reject);
     });
   }
 }

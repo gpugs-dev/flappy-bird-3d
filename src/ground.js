@@ -8,7 +8,7 @@ export class Ground {
     this.segments = [];
 
     const loader = new THREE.TextureLoader();
-    const texture = loader.load('/models/ground.jpg');
+    const texture = loader.load(`${import.meta.env.BASE_URL}models/ground.jpg`);
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
