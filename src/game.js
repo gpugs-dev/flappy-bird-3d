@@ -59,7 +59,7 @@ export class Game {
     this.score = 0;
     this.ui.hideAll();
     this.pipes.reset();
-    this.decor.items.forEach((d) => this.sceneSetup.scene.remove(d));
+    this.decor.items.forEach((d) => this.sceneSetup.scene.remove(d.group));
     this.decor.items = [];
     this.decor.spawnTimer = 0;
     this.bird.reset();
